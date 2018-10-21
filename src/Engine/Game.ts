@@ -1,7 +1,7 @@
 import { Color } from "./Core/Color/Color";
 import { GameObjectContainer } from "./Core/GameObjectContainer";
-import { Time } from "./Core/Time";
 import { Vector2 } from "./Core/GMath/Vectors/Vector2";
+import { Time } from "./Core/Time";
 
 interface GameProperties {
     canvasId: string;
@@ -26,7 +26,7 @@ class Game {
     protected lastFrameTime: number = 0;
     protected lagTime: number = 0.0;
 
-    public gameObjectContainer: GameObjectContainer = new GameObjectContainer();
+    gameObjectContainer: GameObjectContainer = new GameObjectContainer();
 
     /**
      * Main game object
@@ -52,10 +52,10 @@ class Game {
     /**
      * Main Setup of game.
      */
-    Setup(): void {
+    protected Setup(): void {
         this.canvasElement.width = this.properties.dimensions.x;
         this.canvasElement.height = this.properties.dimensions.y;
-        this.canvasElement.style.backgroundColor = this.properties.backgroundColor!.cssRgba;
+        if (this.properties.backgroundColor) this.canvasElement.style.backgroundColor = this.properties.backgroundColor.cssRgba;
     }
 
     /**
