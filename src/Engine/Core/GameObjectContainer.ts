@@ -11,7 +11,7 @@ export class GameObjectContainer {
      * Add GameObject to list.
      * @param gameObject
      */
-    addGameObject(gameObject: GameObject) {
+    addGameObject(gameObject: GameObject): void {
         this.gameObjects.push(gameObject);
     }
 }

@@ -1,4 +1,5 @@
 import { BaseComponent } from "./Core/BaseComponent";
+import { BaseObject } from "./Core/BaseObject";
 import { Color } from "./Core/Color/Color";
 import { GameObject } from "./Core/GameObject";
 import { GameObjectContainer } from "./Core/GameObjectContainer";
@@ -94,8 +95,9 @@ class Game {
     protected Start(): void {
         this.gameObjectContainer.gameObjects.forEach(gameObject => {
             Game.startExecutedOnce(gameObject);
-            gameObject.components.forEach(
-                component => Game.startExecutedOnce(component));
+            gameObject.objects.forEach(object => {
+                if ((object instanceof GameObject || object instanceof BaseComponent)) Game.startExecutedOnce(object);
+            });
         });
     }
 
@@ -107,7 +109,9 @@ class Game {
 
         this.gameObjectContainer.gameObjects.forEach(gameObject => {
             gameObject.Update();
-            gameObject.components.forEach(component => component.Update());
+            gameObject.objects.forEach(object => {
+                if ((object instanceof GameObject || object instanceof BaseComponent)) object.Update()
+            });
         });
     }
 
@@ -117,7 +121,9 @@ class Game {
     protected FixedUpdate(): void {
         this.gameObjectContainer.gameObjects.forEach(gameObject => {
             gameObject.FixedUpdate();
-            gameObject.components.forEach(component => component.FixedUpdate());
+            gameObject.objects.forEach(object => {
+                if ((object instanceof GameObject || object instanceof BaseComponent)) object.FixedUpdate()
+            });
         });
     }
 
@@ -128,7 +134,9 @@ class Game {
     protected LateUpdate(): void {
         this.gameObjectContainer.gameObjects.forEach(gameObject => {
             gameObject.LateUpdate();
-            gameObject.components.forEach(component => component.LateUpdate());
+            gameObject.objects.forEach(object => {
+                if ((object instanceof GameObject || object instanceof BaseComponent)) object.LateUpdate()
+            });
         });
     }
 
@@ -139,8 +147,8 @@ class Game {
         this.context.clearRect(0, 0, this.properties.dimensions.x, this.properties.dimensions.y);
     }
 
-    protected static startExecutedOnce(object: GameObject | BaseComponent) {
-        if (!object.beenEnabledOnce && object.enabled) {
+    protected static startExecutedOnce(object: BaseObject) {
+        if ((object instanceof GameObject || object instanceof BaseComponent) && !object.beenEnabledOnce && object.enabled) {
             object.Start();
             object.beenEnabledOnce = true;
         }
