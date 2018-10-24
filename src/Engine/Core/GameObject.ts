@@ -4,23 +4,14 @@ import { Updateable } from "./Contracts/Updateable";
 
 export class GameObject extends BaseObject implements Updateable {
 
-
     /**
      * Main GameObject Instance
      * @param name
      */
     constructor(name: string) {
         super(name);
-        this.Awaken();
-
         // Default transform
         this.AttachObject(new Transform());
-    }
-
-    /**
-     * Awaken is called on instantiate.
-     */
-    Awaken(): void {
     }
 
     /**

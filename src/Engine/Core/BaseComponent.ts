@@ -5,13 +5,6 @@ export class BaseComponent extends BaseObject implements Updateable {
 
     constructor(name: string) {
         super(name);
-        this.Awaken();
-    }
-
-    /**
-     * Awaken is called on instantiate.
-     */
-    Awaken(): void {
     }
 
     /**

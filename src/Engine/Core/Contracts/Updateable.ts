@@ -1,11 +1,6 @@
 export interface Updateable {
 
     /**
-     * Awaken is called on instantiate.
-     */
-    Awaken(): void;
-
-    /**
      * Run is called on the frame when a script is enabled just before any of
      * the Update methods are called the first time.
      */

@@ -2,6 +2,7 @@ export class BaseObject {
 
     /**
      * Attached objects
+     * @type {BaseObject[]}
      */
     objects: BaseObject[] = [];
 
@@ -12,12 +13,21 @@ export class BaseObject {
     enabled: boolean = true;
 
     /**
+     * Return {BaseObject} if has parent, if not returns null.
+     * Accessible after initialization. (only from Start method)
+     * @type {BaseObject | null}
+     */
+    parent: BaseObject | null = null;
+
+    /**
      * Will be set after first execution.
+     * @type {boolean}
      */
     beenEnabledOnce: boolean = false;
 
     /**
      * The name of game object
+     * @type {string}
      */
     name: string;
 
@@ -35,15 +45,25 @@ export class BaseObject {
      * @param baseObject
      */
     AttachObject(baseObject: BaseObject): void {
+        baseObject.parent = this;
         this.objects.push(baseObject);
     }
 
-    GetComponent<T extends BaseObject>(constructor: { new(...args: any[]): T }): BaseObject | T | null | undefined {
+    /**
+     * Returns component if exists
+     * @param constructor
+     * @return {T}
+     */
+    GetComponent<T extends BaseObject>(constructor: { new(...args: any[]): T }): T {
         return this.attachedObjects.find(
-            object => object instanceof constructor);
+            object => object instanceof constructor) as T;
     }
 
     get attachedObjects(): BaseObject[] {
-        return this.objects;
+        if (this.parent == null) {
+            return this.objects;
+        } else {
+            return this.parent.attachedObjects;
+        }
     }
 }
