@@ -4,7 +4,7 @@ import { Transform } from "./Transform";
 export class ExampleComponent extends BaseComponent {
 
     constructor() {
-        super("Sample Component");
+        super("Example Component");
     }
 
     Start() {

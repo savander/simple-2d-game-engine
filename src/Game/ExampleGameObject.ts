@@ -3,7 +3,7 @@ import { GameObject } from "../Engine/Core/GameObject";
 
 export class ExampleGameObject extends GameObject {
     constructor() {
-        super("stefan");
+        super("Example GameObject");
 
         this.AttachObject(new ExampleComponent());
     }
