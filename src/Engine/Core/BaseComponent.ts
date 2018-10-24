@@ -1,6 +1,19 @@
+import { BaseObject } from "./BaseObject";
 import { Updateable } from "./Contracts/Updateable";
 
-export class BaseComponent implements Updateable {
+export class BaseComponent extends BaseObject implements Updateable {
+
+    constructor(name: string) {
+        super(name)
+        this.Awaken();
+    }
+
+    /**
+     * Awaken is called on instantiate.
+     */
+    Awaken(): void {
+    }
+
     /**
      * Start is called on the frame when a script is enabled just before any of
      * the Update methods are called the first time.

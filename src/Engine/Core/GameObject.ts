@@ -3,7 +3,6 @@ import { BaseObject } from "./BaseObject";
 import { Updateable } from "./Contracts/Updateable";
 
 export class GameObject extends BaseObject implements Updateable {
-
     /**
      * Attached Components
      */
@@ -15,7 +14,13 @@ export class GameObject extends BaseObject implements Updateable {
      */
     constructor(name: string) {
         super(name);
-        this.Start();
+        this.Awaken();
+    }
+
+    /**
+     * Awaken is called on instantiate.
+     */
+    Awaken(): void {
     }
 
     /**
