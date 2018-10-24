@@ -11,4 +11,4 @@ const game = new Game({
 
 game.gameObjectContainer.addGameObject(new LolObject());
 
-game.Start();
+game.Run();

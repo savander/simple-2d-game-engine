@@ -8,7 +8,7 @@ export class GameObjectContainer {
     gameObjects: GameObject[] = [];
 
     /**
-     * Add gameobject to list.
+     * Add GameObject to list.
      * @param gameObject
      */
     addGameObject(gameObject: GameObject) {

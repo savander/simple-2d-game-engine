@@ -1,4 +1,6 @@
+import { BaseComponent } from "./Core/BaseComponent";
 import { Color } from "./Core/Color/Color";
+import { GameObject } from "./Core/GameObject";
 import { GameObjectContainer } from "./Core/GameObjectContainer";
 import { Vector2 } from "./Core/GMath/Vectors/Vector2";
 import { Time } from "./Core/Time";
@@ -42,9 +44,9 @@ class Game {
     }
 
     /**
-     * Setup and Start game.
+     * Setup and Run game.
      */
-    Start(): void {
+    Run(): void {
         this.Setup();
         this.GameLoop();
     }
@@ -63,6 +65,8 @@ class Game {
      * @param frameTime
      */
     protected GameLoop(frameTime: number = 0): void {
+        this.Start();
+
         // Set Time Stamps
         Time.deltaTime = frameTime - this.lastFrameTime;
         this.lagTime += Time.deltaTime;
@@ -84,19 +88,37 @@ class Game {
     }
 
     /**
+     * Checks whether given Object has been enabled, if yes execute Start function.
+     * @constructor
+     */
+    protected Start(): void {
+        this.gameObjectContainer.gameObjects.forEach(gameObject => {
+            Game.startExecutedOnce(gameObject);
+            gameObject.components.forEach(
+                component => Game.startExecutedOnce(component));
+        });
+    }
+
+    /**
      * Main Update, used for graphics.
      */
     protected Update(): void {
         this.ClearCanvas();
 
-        this.gameObjectContainer.gameObjects.forEach((gameObject) => gameObject.Update());
+        this.gameObjectContainer.gameObjects.forEach(gameObject => {
+            gameObject.Update();
+            gameObject.components.forEach(component => component.Update());
+        });
     }
 
     /**
      * Fixed updated used for physics.
      */
     protected FixedUpdate(): void {
-        this.gameObjectContainer.gameObjects.forEach((gameObject) => gameObject.FixedUpdate());
+        this.gameObjectContainer.gameObjects.forEach(gameObject => {
+            gameObject.FixedUpdate();
+            gameObject.components.forEach(component => component.FixedUpdate());
+        });
     }
 
 
@@ -104,7 +126,10 @@ class Game {
      * Late update is executed after fixed and update cycles.
      */
     protected LateUpdate(): void {
-        this.gameObjectContainer.gameObjects.forEach((gameObject) => gameObject.LateUpdate());
+        this.gameObjectContainer.gameObjects.forEach(gameObject => {
+            gameObject.LateUpdate();
+            gameObject.components.forEach(component => component.LateUpdate());
+        });
     }
 
     /**
@@ -112,6 +137,13 @@ class Game {
      */
     protected ClearCanvas(): void {
         this.context.clearRect(0, 0, this.properties.dimensions.x, this.properties.dimensions.y);
+    }
+
+    protected static startExecutedOnce(object: GameObject | BaseComponent) {
+        if (!object.beenEnabledOnce && object.enabled) {
+            object.Start();
+            object.beenEnabledOnce = true;
+        }
     }
 }
 

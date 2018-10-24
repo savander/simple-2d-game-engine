@@ -6,6 +6,10 @@ export class BaseObject {
      */
     enabled: boolean = true;
 
+    /**
+     * Will be set after first execution.
+     */
+    beenEnabledOnce: boolean = false;
 
     /**
      * The name of game object
