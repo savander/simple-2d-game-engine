@@ -1,6 +1,11 @@
 export class BaseObject {
 
     /**
+     * Attached objects
+     */
+    objects: BaseObject[] = [];
+
+    /**
      * Checks if component is enabled. (true by default)
      * @type {boolean}
      */
@@ -20,7 +25,25 @@ export class BaseObject {
         this.name = name;
     }
 
-    Destroy(object: BaseObject) {
+    Destroy(object: BaseObject): void {
+        // TODO: Destroy object
+    }
 
+
+    /**
+     * Attach Component to GameObject
+     * @param baseObject
+     */
+    AttachObject(baseObject: BaseObject): void {
+        this.objects.push(baseObject);
+    }
+
+    GetComponent<T extends BaseObject>(constructor: { new(...args: any[]): T }): BaseObject | T | null | undefined {
+        return this.attachedObjects.find(
+            object => object instanceof constructor);
+    }
+
+    get attachedObjects(): BaseObject[] {
+        return this.objects;
     }
 }
