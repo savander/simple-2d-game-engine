@@ -1,12 +1,9 @@
-import { BaseComponent } from "./BaseComponent";
 import { BaseObject } from "./BaseObject";
+import { Transform } from "./Components/Transform";
 import { Updateable } from "./Contracts/Updateable";
 
 export class GameObject extends BaseObject implements Updateable {
-    /**
-     * Attached Components
-     */
-    components: BaseComponent[] = [];
+
 
     /**
      * Main GameObject Instance
@@ -15,6 +12,9 @@ export class GameObject extends BaseObject implements Updateable {
     constructor(name: string) {
         super(name);
         this.Awaken();
+
+        // Default transform
+        this.AttachObject(new Transform());
     }
 
     /**
@@ -46,14 +46,5 @@ export class GameObject extends BaseObject implements Updateable {
      * LateUpdate is called every frame as last.
      */
     LateUpdate(): void {
-    }
-
-
-    /**
-     * Attach Component to GameObject
-     * @param baseComponent
-     */
-    AttachComponent(baseComponent: BaseComponent) {
-        this.components.push(baseComponent);
     }
 }
