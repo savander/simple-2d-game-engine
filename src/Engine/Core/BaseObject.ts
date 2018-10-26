@@ -31,8 +31,8 @@ export class BaseObject {
      */
     name: string;
 
-    constructor(name: string) {
-        this.name = name;
+    constructor(name?: string) {
+        this.name = name ? name : "Undefined";
     }
 
     Destroy(object: BaseObject): void {

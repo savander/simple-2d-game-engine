@@ -3,7 +3,7 @@ import { Updateable } from "./Contracts/Updateable";
 
 export class BaseComponent extends BaseObject implements Updateable {
 
-    constructor(name: string) {
+    constructor(name?: string) {
         super(name);
     }
 

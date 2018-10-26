@@ -3,6 +3,8 @@ import { Vector3 } from "../GMath/Vectors/Vector3";
 
 export class Transform extends BaseComponent {
 
+    name: string = "Transform";
+
     /**
      * Position vector, Vector3(0,0,0) by default
      */
@@ -12,8 +14,4 @@ export class Transform extends BaseComponent {
      * Rotation along Z-Axis, rotation 0 by default
      */
     rotation: number = 0;
-
-    constructor() {
-        super("Transform");
-    }
 }

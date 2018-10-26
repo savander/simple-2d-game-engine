@@ -1,17 +1,18 @@
 import { BaseComponent } from "../BaseComponent";
+import { Time } from "../Time";
 import { Transform } from "./Transform";
 
 export class ExampleComponent extends BaseComponent {
-
-    constructor() {
-        super("Example Component");
-    }
+    name: string = "Example Component";
+    protected transform?: Transform;
 
     Start() {
-        let transform: Transform = this.GetComponent<Transform>(Transform) as Transform;
+        this.transform = this.GetComponent<Transform>(Transform);
+    }
 
-        console.log(transform.position.x);
-        transform.position.x += 2;
-        console.log(transform.position.x);
+    FixedUpdate() {
+        if(this.transform != undefined) {
+            this.transform.position.x += 10 * Time.fixedDeltaTimeInSeconds();
+        }
     }
 }

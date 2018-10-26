@@ -4,6 +4,7 @@ import { Color } from "./Core/Color/Color";
 import { GameObject } from "./Core/GameObject";
 import { GameObjectContainer } from "./Core/GameObjectContainer";
 import { Vector2 } from "./Core/GMath/Vectors/Vector2";
+import { Renderer } from "./Core/Renderer/Renderer";
 import { Time } from "./Core/Time";
 
 interface GameProperties {
@@ -23,7 +24,7 @@ class Game {
     readonly properties: GameProperties;
 
     protected canvasElement: HTMLCanvasElement;
-    protected context: CanvasRenderingContext2D;
+    static context: CanvasRenderingContext2D;
 
     protected requestFrameID: number | null = null;
     protected lastFrameTime: number = 0;
@@ -41,7 +42,7 @@ class Game {
 
         this.properties = properties;
         this.canvasElement = (document.getElementById(this.properties.canvasId) as HTMLCanvasElement);
-        this.context = this.canvasElement.getContext("2d") as CanvasRenderingContext2D;
+        Game.context = this.canvasElement.getContext("2d") as CanvasRenderingContext2D;
     }
 
     /**
@@ -84,6 +85,9 @@ class Game {
         this.Update();
         this.LateUpdate();
 
+        this.ClearCanvas();
+        this.DrawCanvas();
+
         this.lastFrameTime = frameTime;
         this.requestFrameID = window.requestAnimationFrame(this.GameLoop.bind(this));
     }
@@ -105,8 +109,6 @@ class Game {
      * Main Update, used for graphics.
      */
     protected Update(): void {
-        this.ClearCanvas();
-
         this.gameObjectContainer.gameObjects.forEach(gameObject => {
             gameObject.Update();
             gameObject.objects.forEach(object => {
@@ -144,7 +146,16 @@ class Game {
      * Clears canvas.
      */
     protected ClearCanvas(): void {
-        this.context.clearRect(0, 0, this.properties.dimensions.x, this.properties.dimensions.y);
+        Game.context.clearRect(0, 0, this.properties.dimensions.x, this.properties.dimensions.y);
+    }
+
+    protected DrawCanvas(): void {
+        this.gameObjectContainer.gameObjects.forEach((object) => {
+            let renderer = object.GetComponent<Renderer>(Renderer);
+            if(renderer != undefined) {
+                renderer.Draw(object);
+            }
+        });
     }
 
     protected static startExecutedOnce(object: BaseObject) {

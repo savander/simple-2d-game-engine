@@ -8,7 +8,7 @@ export class GameObject extends BaseObject implements Updateable {
      * Main GameObject Instance
      * @param name
      */
-    constructor(name: string) {
+    constructor(name?: string) {
         super(name);
         // Default transform
         this.AttachObject(new Transform());
