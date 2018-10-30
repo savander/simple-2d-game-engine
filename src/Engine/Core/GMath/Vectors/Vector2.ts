@@ -1,4 +1,7 @@
 export class Vector2 {
+
+    static zero: Vector2 = new Vector2(0, 0);
+
     x: number;
     y: number;
 

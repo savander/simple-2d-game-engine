@@ -4,6 +4,7 @@ import { Color } from "./Core/Color/Color";
 import { GameObject } from "./Core/GameObject";
 import { GameObjectContainer } from "./Core/GameObjectContainer";
 import { Vector2 } from "./Core/GMath/Vectors/Vector2";
+import { Input } from "./Core/Input/Input";
 import { Renderer } from "./Core/Renderer/Renderer";
 import { Time } from "./Core/Time";
 
@@ -60,6 +61,8 @@ class Game {
         this.canvasElement.width = this.properties.dimensions.x;
         this.canvasElement.height = this.properties.dimensions.y;
         if (this.properties.backgroundColor) this.canvasElement.style.backgroundColor = this.properties.backgroundColor.cssRgba;
+
+        this.RecordInputs();
     }
 
     /**
@@ -152,10 +155,14 @@ class Game {
     protected DrawCanvas(): void {
         this.gameObjectContainer.gameObjects.forEach((object) => {
             let renderer = object.GetComponent<Renderer>(Renderer);
-            if(renderer != undefined) {
+            if (renderer != undefined) {
                 renderer.Draw(object);
             }
         });
+    }
+
+    protected RecordInputs(): void {
+        Input.RecordInputs(this.canvasElement);
     }
 
     protected static startExecutedOnce(object: BaseObject) {
