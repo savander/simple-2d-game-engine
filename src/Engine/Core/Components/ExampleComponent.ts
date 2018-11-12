@@ -1,5 +1,5 @@
 import { BaseComponent } from "../BaseComponent";
-import { Input } from "../Input/Input";
+import { InputMouse } from "../Input/InputMouse";
 import { MouseButtons } from "../Input/MouseButtons";
 import { SquareRenderer } from "../Renderer/SquareRenderer";
 import { Transform } from "./Transform";
@@ -16,8 +16,11 @@ export class ExampleComponent extends BaseComponent {
     }
 
     FixedUpdate() {
-        if (this.transform && Input.GetMouseButton() == MouseButtons.LEFT_CLICK) {
-            this.transform.position.x += 1;
+        if (this.renderer && this.transform) {
+            if (InputMouse.GetButtonUp(MouseButtons.LEFT_CLICK)) {
+                this.transform.position.x = InputMouse.mousePosition.x - (this.renderer.dimensions.x / 2);
+                this.transform.position.y = InputMouse.mousePosition.y - (this.renderer.dimensions.y / 2);
+            }
         }
     }
 }
