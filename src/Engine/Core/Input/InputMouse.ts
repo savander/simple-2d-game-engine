@@ -11,7 +11,7 @@ interface MouseButton {
 export class InputMouse {
     protected static _mousePosition: Vector2 = Vector2.zero;
 
-    protected static _mouseButtons: Array<MouseButton> = [];
+    protected static _mouseButtons: { [key: number]: MouseButton } = {};
 
     static RecordInputs(element: HTMLCanvasElement): void {
         element.addEventListener("mousemove",
@@ -32,18 +32,18 @@ export class InputMouse {
     }
 
     protected static RecordMouseDown(event: MouseEvent): void {
-        this._mouseButtons.splice(event.button, 1, {
+        this._mouseButtons[event.button] = {
             buttonDown: true, buttonUp: false, buttonHold: true, sentOnce: false
-        });
+        };
     }
 
     protected static RecordMouseUp(event: MouseEvent): void {
-        this._mouseButtons.splice(event.button, 1, {
+        this._mouseButtons[event.button] = {
             buttonDown: false,
             buttonUp: true,
             buttonHold: false,
             sentOnce: false
-        });
+        };
     }
 
     static GetButtonDown(button: number | MouseButtons): boolean {
@@ -61,7 +61,7 @@ export class InputMouse {
     }
 
     static GetButtonHold(button: number | MouseButtons): boolean {
-        if (!this.checkIfUndefined(button)) return false;
+        if (this.checkIfUndefined(button)) return false;
 
         return this._mouseButtons[button].buttonHold;
     }
